@@ -18,8 +18,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="progetto", schema="progetto")
-public class Driver implements Serializable{
+@Table(name="anime", schema="564817")
+public class Anime implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
@@ -28,12 +28,20 @@ public class Driver implements Serializable{
     //altrimenti non gli piace. per fare prima metto tutto minuscolo e via
     @Column(name="name")
     private String name;
-    @Column(name="lastname")
+    /*@Column(name="lastname")
     private String lastName;
     @Column(name="nationality")
     private String nationality;
     @Column(name="birthdate")
-    private String birthDate;
+    private String birthDate;*/
+
+    public Anime() {
+    }
+
+    public Anime(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
@@ -50,41 +58,5 @@ public class Driver implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Driver() {
-    }
-
-    public Driver(Integer id, String name, String lastName, String nationality, String birthDate) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.nationality = nationality;
-        this.birthDate = birthDate;
-    }
-    
-    
+       
 }

@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author edoar
  */
-public interface DriverRepository extends CrudRepository<Driver, Integer>{
-    Driver findByName(String n);
+public interface AnimeRepository extends CrudRepository<Anime, Integer>{
+    Anime findByName(String n);
+    long count();
 }

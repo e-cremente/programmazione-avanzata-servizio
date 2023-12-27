@@ -21,21 +21,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(path="/")
 public class MainController {
     @Autowired
-    private DriverRepository driverRepository;
+    private AnimeRepository animeRepository;
+    
+    public long count(){
+        return animeRepository.count();
+    }
     
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Driver> getAllUsers(){
-        return driverRepository.findAll();
+    public @ResponseBody Iterable<Anime> getAllAnime(){
+        return animeRepository.findAll();
     }
     
     @PostMapping(path="/driver")
-    public @ResponseBody Driver getUserByName(@RequestParam String name){
-        return driverRepository.findByName(name);
+    public @ResponseBody Anime getAnimeByName(@RequestParam String name){
+        return animeRepository.findByName(name);
     }
     
     @PostMapping(path="/add")
-    public @ResponseBody String addNewDriver(@RequestBody Driver d){
-        driverRepository.save(d);
+    public @ResponseBody String addNewAnime(@RequestBody Anime a){
+        animeRepository.save(a);
         return "Saved";
     }
 }
