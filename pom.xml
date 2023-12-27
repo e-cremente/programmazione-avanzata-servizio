@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>it.unipi</groupId>
-	<artifactId>ServerProgetto</artifactId>
+	<artifactId>ServizioProgetto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ServerProgetto</name>
+	<name>ServizioProgetto</name>
 	<description>Servizio Web</description>
 	<properties>
 		<java.version>11</java.version>
