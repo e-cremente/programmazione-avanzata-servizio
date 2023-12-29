@@ -4,6 +4,8 @@
  */
 package it.unipi.ServizioProgetto;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
     @Autowired
     private AnimeRepository animeRepository;
+    @Autowired
+    private UtenteRepository utenteRepository;
+    private static final Logger logger = LogManager.getLogger(MainController.class);
     
-    public long count(){
-        return animeRepository.count();
+    @GetMapping(path="/count")
+    public @ResponseBody String count(){
+        long conto = animeRepository.count();
+        return String.valueOf(conto);
     }
     
     @GetMapping(path="/all")
@@ -32,7 +39,7 @@ public class MainController {
         return animeRepository.findAll();
     }
     
-    @PostMapping(path="/driver")
+    @PostMapping(path="/title")
     public @ResponseBody Anime getAnimeByName(@RequestParam String name){
         return animeRepository.findByName(name);
     }
@@ -41,5 +48,15 @@ public class MainController {
     public @ResponseBody String addNewAnime(@RequestBody Anime a){
         animeRepository.save(a);
         return "Saved";
+    }
+    
+    @PostMapping(path="/utente")
+    public @ResponseBody String addNewUtente(@RequestBody Utente u){
+        Utente trovato = utenteRepository.findByUsername(u.getUsername());
+        if(trovato == null){
+            utenteRepository.save(u);
+            return "OK";
+        }
+        return "NO";
     }
 }

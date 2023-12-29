@@ -10,6 +10,6 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author edoar
  */
-public interface AnimeRepository extends CrudRepository<Anime, Long>{
-    Anime findByName(String n);
+public interface UtenteRepository extends CrudRepository<Utente, Long>{
+    Utente findByUsername(String s);
 }

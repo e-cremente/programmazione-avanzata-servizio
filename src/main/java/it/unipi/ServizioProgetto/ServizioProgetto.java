@@ -31,7 +31,8 @@ public class ServizioProgetto {
             //stabilisco una connessione col db
 
             //dal momento che non stiamo ancora gestendo richieste provenienti dall'applicazione ma stiamo
-            //svolgendo operazioni di inizializzazione, utilizzo un linguaggio di più basso livello per gestire le query
+            //svolgendo operazioni di inizializzazione (inoltre animerepository non è ancora stata inizializzata)
+            //utilizzo un linguaggio di più "basso livello" per gestire le query
             
             //controllo se ci sono già dei dati nel db. Nel caso fosse così, posso anche fermarmi.
             ResultSet rs = st.executeQuery("SELECT * FROM anime;");
@@ -63,13 +64,21 @@ public class ServizioProgetto {
                     JsonObject rootObject = json.getAsJsonObject();
                     JsonArray anime = rootObject.get("data").getAsJsonArray();
 
-                    PreparedStatement ps = co.prepareStatement("INSERT INTO anime (id, name) VALUES (?, ?)");   
+                    PreparedStatement ps = co.prepareStatement("INSERT INTO anime (id, name, image, episodes, finished, score) VALUES (?, ?, ?, ?, ?, ?)");   
                     
                     //Inserisco 25 record nel database
                     for(int j = 0; j < anime.size(); j++){
                         JsonObject jo = anime.get(j).getAsJsonObject();
                         ps.setLong(1, id++);
                         ps.setString(2, jo.get("title").getAsString());
+                        ps.setString(3, jo.get("images").getAsJsonObject().get("jpg").getAsJsonObject().get("image_url").getAsString());
+                        if(!jo.get("episodes").isJsonNull()){
+                            ps.setString(4, jo.get("episodes").getAsString());
+                        }                          
+                        else
+                            ps.setString(4, "/");
+                        ps.setString(5, jo.get("airing").getAsString());
+                        ps.setDouble(6, jo.get("score").getAsDouble());
                         ps.executeUpdate();
                     }
                     
@@ -95,5 +104,4 @@ public class ServizioProgetto {
         ServizioProgetto server = new ServizioProgetto();
         server.initializeDatabase();
     }
-
 }

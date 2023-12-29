@@ -22,32 +22,35 @@ import javax.persistence.Table;
 public class Anime implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     
-    //il nome della colonna si può anche mettere in maiuscolo, ma solo la prima lettera,
-    //altrimenti non gli piace. per fare prima metto tutto minuscolo e via
     @Column(name="name")
     private String name;
-    /*@Column(name="lastname")
-    private String lastName;
-    @Column(name="nationality")
-    private String nationality;
-    @Column(name="birthdate")
-    private String birthDate;*/
+    @Column(name="image")
+    private String image;
+    @Column(name="episodes")
+    private String episodes;
+    @Column(name="finished")
+    private String finished;
+    @Column(name="score")
+    private Double score;
 
     public Anime() {
     }
 
-    public Anime(Integer id, String name) {
-        this.id = id;
+    public Anime(String name, String image, String episodes, String finished, Double score, String story) {
         this.name = name;
+        this.image = image;
+        this.episodes = episodes;
+        this.finished = finished;
+        this.score = score;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,5 +61,36 @@ public class Anime implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-       
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(String episodes) {
+        this.episodes = episodes;
+    }
+
+    public String getFinished() {
+        return finished;
+    }
+
+    public void setFinished(String finished) {
+        this.finished = finished;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
 }
