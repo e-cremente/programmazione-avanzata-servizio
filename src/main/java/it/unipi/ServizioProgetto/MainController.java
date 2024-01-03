@@ -59,4 +59,13 @@ public class MainController {
         }
         return "NO";
     }
+    
+    @PostMapping(path="/login")
+    public @ResponseBody String loginUtente(@RequestBody Utente u){
+        Utente trovato = utenteRepository.findByUsernameAndPassword(u.getUsername(), u.getPassword());
+        if(trovato == null){
+            return "NO";
+        }
+        return "OK";
+    }
 }

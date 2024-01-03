@@ -80,15 +80,19 @@ public class ServizioProgetto {
                         ps.setString(5, jo.get("airing").getAsString());
                         ps.setDouble(6, jo.get("score").getAsDouble());
                         ps.executeUpdate();
-                    }
-                    
-                    //Quando arrivo all'ultimo ciclo, ossia ho inserito 100 record, cambio il valore del prossimo
-                    //id da inserire in modo che da questo momento in poi, il processo sia automatizzato
-                    if(i == 4){
-                        ps = co.prepareStatement("UPDATE hibernate_sequence SET next_val="+id);
-                        ps.executeUpdate();
-                    }                       
+                    }                    
                 }
+                PreparedStatement ps = co.prepareStatement("INSERT INTO utenti (id, password, username) VALUES (?, ?, ?)");
+                ps.setLong(1, id++);
+                ps.setString(2, "test");
+                ps.setString(3, "test");
+                ps.executeUpdate();
+                
+                //Quando arrivo alla fine, ossia ho inserito 100 record + utente test, cambio il valore del prossimo
+                //id da inserire in modo che da questo momento in poi, il processo sia automatizzato
+                ps = co.prepareStatement("UPDATE hibernate_sequence SET next_val="+id);
+                ps.executeUpdate();
+                
                 logger.info("Il database inizialmente vuoto è stato inizializzato");
                 return;
             }                   
