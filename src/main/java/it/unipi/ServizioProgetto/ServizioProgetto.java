@@ -71,13 +71,13 @@ public class ServizioProgetto {
                         JsonObject jo = anime.get(j).getAsJsonObject();
                         ps.setLong(1, id++);
                         ps.setString(2, jo.get("title").getAsString());
-                        ps.setString(3, jo.get("images").getAsJsonObject().get("jpg").getAsJsonObject().get("image_url").getAsString());
+                        ps.setString(3, jo.get("images").getAsJsonObject().get("jpg").getAsJsonObject().get("large_image_url").getAsString());
                         if(!jo.get("episodes").isJsonNull()){
                             ps.setString(4, jo.get("episodes").getAsString());
                         }                          
                         else
                             ps.setString(4, "/");
-                        ps.setString(5, jo.get("airing").getAsString());
+                        ps.setString(5, jo.get("airing").getAsString().equals("true") ? "false" : "true");
                         ps.setDouble(6, jo.get("score").getAsDouble());
                         ps.executeUpdate();
                     }                    
