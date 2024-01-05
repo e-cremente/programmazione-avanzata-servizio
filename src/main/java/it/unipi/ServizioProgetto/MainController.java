@@ -26,13 +26,9 @@ public class MainController {
     private AnimeRepository animeRepository;
     @Autowired
     private UtenteRepository utenteRepository;
+    @Autowired
+    private UtenteAnimeRepository utenteAnimeRepository;
     private static final Logger logger = LogManager.getLogger(MainController.class);
-    
-    @GetMapping(path="/count")
-    public @ResponseBody String count(){
-        long conto = animeRepository.count();
-        return String.valueOf(conto);
-    }
     
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Anime> getAllAnime(){
@@ -68,4 +64,46 @@ public class MainController {
         }
         return "OK";
     }
+    
+    @PostMapping(path="/join")
+    public @ResponseBody Iterable<Anime> joinUtenteAnime(@RequestParam String username){
+        return animeRepository.findAnimeByUsername(username);
+    }
+    
+    @PostMapping(path="/addtouserlist")
+    public @ResponseBody String addToUserList(@RequestBody UtenteAnime ua){
+        UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+        if(trovato == null){
+            utenteAnimeRepository.save(ua);
+            return "OK";
+        }
+        return "NO";
+    }
+    
+    @PostMapping(path="/findjoin")
+    public @ResponseBody String findJoin(@RequestBody UtenteAnime ua){
+        UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+        if(trovato == null){
+            return "NO";
+        }
+        return "OK";
+    }
+    
+    @PostMapping(path="/addscorenotes")
+    public @ResponseBody String addScoreNotes(@RequestBody UtenteAnime ua){
+        UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+        if(trovato == null){
+            return "NO";
+        }
+        trovato.setNotes(ua.getNotes());
+        trovato.setOwnscore(ua.getOwnscore());
+        utenteAnimeRepository.save(trovato);
+        return "OK";
+    }
+    
+    @PostMapping(path="/getscorenotes")
+    public @ResponseBody UtenteAnime getScoreNotes(@RequestBody UtenteAnime ua){
+        return utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+    }
+   
 }

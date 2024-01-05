@@ -88,6 +88,14 @@ public class ServizioProgetto {
                 ps.setString(3, "test");
                 ps.executeUpdate();
                 
+                ps = co.prepareStatement("INSERT INTO utentianime (id, username, idanime, ownscore, notes) VALUES (?, ?, ?, ?, ?)");
+                ps.setLong(1, id++);
+                ps.setString(2, "test");
+                ps.setLong(3, 1);
+                ps.setDouble(4, 0.0);
+                ps.setString(5, "");               
+                ps.executeUpdate();
+                
                 //Quando arrivo alla fine, ossia ho inserito 100 record + utente test, cambio il valore del prossimo
                 //id da inserire in modo che da questo momento in poi, il processo sia automatizzato
                 ps = co.prepareStatement("UPDATE hibernate_sequence SET next_val="+id);
