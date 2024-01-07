@@ -4,6 +4,7 @@
  */
 package it.unipi.ServizioProgetto;
 
+import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,14 @@ public class MainController {
     @PostMapping(path="/getscorenotes")
     public @ResponseBody UtenteAnime getScoreNotes(@RequestBody UtenteAnime ua){
         return utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+    }
+    
+    //annotazione da inserire se si usa il comando di delete
+    @Transactional
+    @PostMapping(path="/remove")
+    public @ResponseBody String removeAnime(@RequestBody UtenteAnime ua){
+        utenteAnimeRepository.deleteByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
+        return "OK";
     }
    
 }

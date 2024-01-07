@@ -12,4 +12,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UtenteAnimeRepository extends CrudRepository<UtenteAnime, Long>{
     UtenteAnime findByIdanimeAndUsername(String i, String u);
+    void deleteByIdanimeAndUsername(String i, String u);
 }
