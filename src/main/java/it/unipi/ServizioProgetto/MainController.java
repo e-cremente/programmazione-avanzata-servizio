@@ -31,22 +31,26 @@ public class MainController {
     private UtenteAnimeRepository utenteAnimeRepository;
     private static final Logger logger = LogManager.getLogger(MainController.class);
     
+    //restituisce tutti i record della tabella anime
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Anime> getAllAnime(){
         return animeRepository.findAll();
     }
     
+    //restituisce un anime in base al titolo
     @PostMapping(path="/title")
     public @ResponseBody Anime getAnimeByName(@RequestParam String name){
         return animeRepository.findByName(name);
     }
     
+    //aggiunge un anime alla tabella degli anime
     @PostMapping(path="/add")
     public @ResponseBody String addNewAnime(@RequestBody Anime a){
         animeRepository.save(a);
         return "Saved";
     }
     
+    //se l'utente non è presente nel database, lo salva nella tabella utenti
     @PostMapping(path="/utente")
     public @ResponseBody String addNewUtente(@RequestBody Utente u){
         Utente trovato = utenteRepository.findByUsername(u.getUsername());
@@ -57,6 +61,7 @@ public class MainController {
         return "NO";
     }
     
+    //cerca un utente tramite nome e password per vedere se i dati sono corretti. se lo sono da l'ok per il login
     @PostMapping(path="/login")
     public @ResponseBody String loginUtente(@RequestBody Utente u){
         Utente trovato = utenteRepository.findByUsernameAndPassword(u.getUsername(), u.getPassword());
@@ -66,11 +71,13 @@ public class MainController {
         return "OK";
     }
     
+    //restituisce tutti gli anime appartenenti a un determinato utente da mostrare nella lista personale
     @PostMapping(path="/join")
     public @ResponseBody Iterable<Anime> joinUtenteAnime(@RequestParam String username){
         return animeRepository.findAnimeByUsername(username);
     }
     
+    //se non è già presente, aggiunge un anime alla lista personale dell'utente
     @PostMapping(path="/addtouserlist")
     public @ResponseBody String addToUserList(@RequestBody UtenteAnime ua){
         UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
@@ -81,6 +88,7 @@ public class MainController {
         return "NO";
     }
     
+    //controlla se un anime appartiene a un determinato utente
     @PostMapping(path="/findjoin")
     public @ResponseBody String findJoin(@RequestBody UtenteAnime ua){
         UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
@@ -90,6 +98,7 @@ public class MainController {
         return "OK";
     }
     
+    //aggiorna i campi dello score personale e delle note personali per uno specifico anime di uno specifico utente
     @PostMapping(path="/addscorenotes")
     public @ResponseBody String addScoreNotes(@RequestBody UtenteAnime ua){
         UtenteAnime trovato = utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
@@ -102,6 +111,7 @@ public class MainController {
         return "OK";
     }
     
+    //restituisce un oggetto UtenteAnime dal quale verranno letti le note e lo score personali
     @PostMapping(path="/getscorenotes")
     public @ResponseBody UtenteAnime getScoreNotes(@RequestBody UtenteAnime ua){
         return utenteAnimeRepository.findByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
@@ -109,6 +119,7 @@ public class MainController {
     
     //annotazione da inserire se si usa il comando di delete
     @Transactional
+    //rimuove un anime dalla lista personale dell'utente
     @PostMapping(path="/remove")
     public @ResponseBody String removeAnime(@RequestBody UtenteAnime ua){
         utenteAnimeRepository.deleteByIdanimeAndUsername(ua.getIdanime(), ua.getUsername());
